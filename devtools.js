@@ -1,5 +1,5 @@
 chrome.devtools.panels.elements.createSidebarPane(
-  'Plastiq ViewModel',
+  'Hyperdom ViewModel',
   function(sidebar) {
     inspect(sidebar);
     chrome.devtools.panels.elements.onSelectionChanged.addListener(function () {
@@ -9,17 +9,18 @@ chrome.devtools.panels.elements.createSidebarPane(
 );
 
 function inspect(sidebar) {
-  sidebar.setExpression('(' + findPlastiqViewModel.toString() + ')($0)');
+  sidebar.setExpression('(' + findHyperdomViewModel.toString() + ')($0)');
 }
 
-function findPlastiqViewModel(startElement) {
+function findHyperdomViewModel(startElement) {
   var element = startElement;
 
-  while(element && !element._plastiqViewModel) {
+  while(element && !(element._hyperdomMeta && element._hyperdomMeta.viewModel)) {
     element = element.parentNode;
   }
 
   if (element) {
-    return element._plastiqViewModel;
+    var meta = element._hyperdomMeta;
+    return meta.viewModel;
   }
 }
